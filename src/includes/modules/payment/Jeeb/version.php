@@ -1,0 +1,3 @@
+<?php
+
+define('JEEB_ZENCART_EXTENSION_VERSION', '1.0.2');
