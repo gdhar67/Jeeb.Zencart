@@ -11,28 +11,28 @@ global $db;
 $postdata = file_get_contents("php://input");
 $json = json_decode($postdata, true);
 
-
-error_log('Order Id received = '.$json['orderNo']);
+error_log("Entered into Notification");
+error_log("Response =>". var_export($json, TRUE));
 
 if ( $json['stateId']== 2 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId'].' status no = '.MODULE_PAYMENT_JEEB_PENDING_STATUS_ID);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId'].' status no = '.MODULE_PAYMENT_JEEB_PENDING_STATUS_ID);
 }
 else if ( $json['stateId']== 3 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId'].' status no = '.MODULE_PAYMENT_JEEB_PAID_STATUS_ID);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId'].' status no = '.MODULE_PAYMENT_JEEB_PAID_STATUS_ID);
   $order_status = MODULE_PAYMENT_JEEB_PAID_STATUS_ID;
 }
 else if ( $json['stateId']== 4 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
 
   $data = array(
     "token" => $json['token'],
   );
 
   $data_string = json_encode($data);
-  $api_key = MODULE_PAYMENT_JEEB_API_KEY;
-  $testMode = ((MODULE_PAYMENT_JEEB_TEST == 'True') ? true : false);
-  $baseUri = $testMode ? "http://test.jeeb.io:9876/" : "https://jeeb.io/" ;
-  $url = $baseUri.'api/bitcoin/confirm/'.$api_key;
+  $api_key     = MODULE_PAYMENT_JEEB_API_KEY;
+  $testMode    = ((MODULE_PAYMENT_JEEB_TEST == 'True') ? true : false);
+  $baseUri     = "https://core.jeeb.io/api/" ;
+  $url         = $baseUri.'payments/'.$api_key.'/confirm';
 
 
   $ch = curl_init($url);
@@ -59,15 +59,15 @@ else if ( $json['stateId']== 4 ) {
   }
 }
 else if ( $json['stateId']== 5 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
   $order_status = MODULE_PAYMENT_JEEB_EXPIRED_STATUS_ID;
 }
 else if ( $json['stateId']== 6 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
   $order_status = MODULE_PAYMENT_JEEB_CANCELED_STATUS_ID;
 }
 else if ( $json['stateId']== 7 ) {
-  error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
+  // error_log('Order Id received = '.$json['orderNo'].' stateId = '.$json['stateId']);
   $order_status = MODULE_PAYMENT_JEEB_CANCELED_STATUS_ID;
 }
 else{
